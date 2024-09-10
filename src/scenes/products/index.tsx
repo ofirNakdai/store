@@ -9,77 +9,105 @@ import {
   Typography,
   CardActions,
   Button,
+  useTheme,
+  Rating,
+  Tooltip,
 } from "@mui/material";
+import { tokens } from "../../theme";
+import { useProducts } from "../../services/queries";
+import { useEffect, useRef, useState } from "react";
+import ProductTitleWithTooltip from "./productTitleWithTooltip";
+import { useShoppingList } from "../../context/shopingList";
 
-export default function Products() {
-  const nums = [1, 2, 3, 4, 5, 6,7,8,9, 10, 11, 12, 13, 14, 15, 16, 17];
+const Products = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const productsQuery = useProducts();
+  const { addToShoppingList } = useShoppingList(); // Access the addToShoppingList function from context
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center">
-      <Grid container spacing={2} m="0px">
-        {nums.map((num) => (
-          <Grid item key={num} xs={12} sm={6} md={3}>
-            <Card className={`card_${num}`}>
+    <Box display="flex">
+      <Grid container spacing={8} m="0 30px 30px 0">
+        {productsQuery.data?.map((product) => (
+          <Grid item key={product.id} xs={12} sm={6} md={3}>
+            <Card
+              className={`card_${product.id}`}
+              sx={{
+                backgroundColor: colors.primary[900],
+                height: "100%",
+              }}
+              raised
+            >
               <CardMedia
-                image="https://api.unsplash.com/photos/random"
-                title="Image Title"
-                sx={{ paddingTop: "56.25%" }}
+                component="img"
+                image={product.image}
+                title={product.title}
+                sx={{
+                  objectFit: "contain",
+                  height: "200px",
+                  alt: "alt",
+                }}
               />
               <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h5">
-                  Heading
-                </Typography>
-                <Typography>
-                  This is a media card. You can use this section to describe the
-                  content.
-                </Typography>
+                <ProductTitleWithTooltip title={product.title} />
+
+                {/* RATING */}
+                <Box display="flex" justifyContent="left">
+                  <Rating
+                    name="half-rating-read"
+                    value={product.rating.rate}
+                    precision={0.5}
+                    size="small"
+                    readOnly
+                  />
+                  <Typography
+                    variant="body1"
+                    fontSize="11px"
+                    color="primary"
+                  >{`(${product.rating.count})`}</Typography>
+                </Box>
+
+                {/* PRICE */}
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                >
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="body1" fontSize="11px" color="primary">
+                      Price
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      fontWeight="bold"
+                    >{`$${product.price}`}</Typography>
+                  </Box>
+                  <Button
+                    sx={{
+                      backgroundColor:
+                        theme.palette.mode === "light"
+                          ? colors.grey[900]
+                          : colors.grey[700],
+                      color: colors.grey[100],
+                      "&:hover": {
+                        backgroundColor:
+                          theme.palette.mode === "light"
+                            ? colors.grey[800]
+                            : colors.grey[600], // Background color on hover
+                      },
+                      borderRadius: "6px",
+                    }}
+                    onClick={() => addToShoppingList(product)}
+                  >
+                    Add to Cart
+                  </Button>
+                </Box>
               </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  View
-                </Button>
-                <Button size="small" color="primary">
-                  Edit
-                </Button>
-              </CardActions>
             </Card>
           </Grid>
         ))}
       </Grid>
     </Box>
   );
-
-  //   <Container className={classes.cardGrid} maxWith="md">
-  //     <Grid container spacing={4}>
-  //       {cards.map((card) => (
-  //         <Grid item key={card} xs={12} sm={6} md={4}>
-  //           <Card className={classes.card}>
-  //             <CardMedia
-  //               className={classes.cardMedia}
-  //               image="https://api.unsplash.com/photos/random"
-  //               title="Image Title"
-  //             />
-  //             <CardContent className={classes.cardContent}>
-  //               <Typography gutterBottom variant="h5">
-  //                 Heading
-  //               </Typography>
-  //               <Typography>
-  //                 This is a media card. You can use this section to describe
-  //                 the content.
-  //               </Typography>
-  //             </CardContent>
-  //             <CardActions>
-  //               <Button size="small" color="primary">
-  //                 View
-  //               </Button>
-  //               <Button size="small" color="primary">
-  //                 Edit
-  //               </Button>
-  //             </CardActions>
-  //           </Card>
-  //         </Grid>
-  //       ))}
-  //     </Grid>
-  //   </Container>
-  //   );
-}
+};
+export default Products;

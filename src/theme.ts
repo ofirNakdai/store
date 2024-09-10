@@ -130,7 +130,7 @@ export const themeSettings = (mode: "light" | "dark") => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[500],
+              main: colors.primary[200],
             },
             secondary: {
               main: colors.greenAccent[500],
@@ -190,6 +190,10 @@ export const themeSettings = (mode: "light" | "dark") => {
         fontSize: 14,
       },
     },
+    button:{
+      
+
+    }
   };
 };
 
