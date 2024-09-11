@@ -4,13 +4,13 @@ import { ColorModeContext, tokens } from "../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link } from "react-router-dom";
+import { useCart } from "../context/cartProvider";
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode as "light" | "dark");
   const colorMode = useContext(ColorModeContext);
-  
+  const { totalAmount, totalQuantity } = useCart();
 
   return (
     <Box
@@ -24,14 +24,12 @@ const Topbar = () => {
       {/* Name */}
       <Box
         display="flex"
-        sx={{ 
+        sx={{
           backgroundColor: colors.primary[400],
           borderRadius: "5px",
         }}
       >
-        <Link to="/">
-          <Typography variant="h2">Hafifa Store</Typography>
-        </Link>
+        <Typography variant="h2">Hafifa Store</Typography>
       </Box>
 
       {/* SHOPPING LIST AND THEME */}
@@ -53,10 +51,10 @@ const Topbar = () => {
           p="8px"
         >
           <Typography variant="h4" p="4px">
-            {`$100`}
+            {`$${totalAmount.toFixed(2)}`}
           </Typography>
           <Typography variant="h6" p="4px">
-            {`(2)`}
+            {`(${totalQuantity})`}
           </Typography>
         </Box>
       </Box>

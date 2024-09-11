@@ -1,10 +1,20 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useMemo,
+} from "react";
 import { Product } from "../types/product";
-import { getProducts } from "../services/api";
+
+interface CartProductInfo {
+  quantity: number;
+  productPrice: number;
+}
 
 // Define a type for the cart, where product.id maps to the quantity
 interface Cart {
-  [productId: number]: number;
+  [productId: number]: CartProductInfo;
 }
 
 // Define the type for the context value
@@ -12,6 +22,7 @@ interface CartContextType {
   cart: Cart;
   addToCart: (product: Product) => void;
   totalAmount: number;
+  totalQuantity: number;
 }
 
 // Create the CartContext with a default value
@@ -29,31 +40,47 @@ export const useCart = (): CartContextType => {
 // CartProvider component to wrap your app
 interface CartProviderProps {
   children: ReactNode;
-  products: Product[] | undefined;
 }
 
-export const CartProvider = ({ children, products }: CartProviderProps) => {
+// Function to calculate the total amount
+const calculateTotalAmount = (cart: Cart): number => {
+  return Object.values(cart).reduce((total, cartProductInfo) => {
+    return total + cartProductInfo.productPrice * cartProductInfo.quantity;
+  }, 0); // Initial total is 0
+};
+
+export const CartProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<Cart>({});
+  const totalAmount = useMemo<number>(() => calculateTotalAmount(cart), [cart]);
+  const totalQuantity = useMemo<number>(() => {
+    return Object.keys(cart).length;
+  }, [cart]); // Initial total is 0
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => ({
       ...prevCart,
-      [product.id]: (prevCart[product.id] || 0) + 1,
+      [product.id]: {
+        quantity: (prevCart[product.id]?.quantity || 0) + 1,
+        productPrice: product.price,
+      },
     }));
   };
 
-  const totalAmount = Object.entries(cart).reduce(
-    (total, [productId, quantity]) => {
-      const product = products!.find(
-        (product) => product.id === Number(productId)
-      );
-      return product ? total + product.price * quantity : total;
-    },
-    0
-  );
+  //   const products = useProducts().data;
+  //   const totalAmount = Object.entries(cart).reduce(
+  //     (total, [productId, quantity]) => {
+  //       const product = products!.find(
+  //         (product) => product.id === Number(productId)
+  //       );
+  //       return product ? total + product.price * quantity : total;
+  //     },
+  //     0
+  //   );
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, totalAmount }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, totalAmount, totalQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );

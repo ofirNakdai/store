@@ -17,11 +17,13 @@ import { tokens } from "../../theme";
 import { useProducts } from "../../services/queries";
 import { useEffect, useRef, useState } from "react";
 import ProductTitleWithTooltip from "./productTitleWithTooltip";
+import { useCart } from "../../context/cartProvider";
 
 const Products = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const productsQuery = useProducts();
+  const { addToCart } = useCart();
 
   return (
     <Box display="flex">
@@ -43,6 +45,7 @@ const Products = () => {
                 sx={{
                   objectFit: "contain",
                   height: "200px",
+                  width: "100%",
                   alt: "alt",
                 }}
               />
@@ -78,7 +81,7 @@ const Products = () => {
                     <Typography
                       variant="h5"
                       fontWeight="bold"
-                    >{`$${product.price}`}</Typography>
+                    >{`$${product.price.toFixed(2)}`}</Typography>
                   </Box>
                   <Button
                     sx={{
@@ -95,6 +98,7 @@ const Products = () => {
                       },
                       borderRadius: "6px",
                     }}
+                    onClick={() => addToCart(product)}
                   >
                     Add to Cart
                   </Button>
