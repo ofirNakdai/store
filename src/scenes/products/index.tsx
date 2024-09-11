@@ -17,13 +17,11 @@ import { tokens } from "../../theme";
 import { useProducts } from "../../services/queries";
 import { useEffect, useRef, useState } from "react";
 import ProductTitleWithTooltip from "./productTitleWithTooltip";
-import { useShoppingList } from "../../context/shopingList";
 
 const Products = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const productsQuery = useProducts();
-  const { addToShoppingList } = useShoppingList(); // Access the addToShoppingList function from context
 
   return (
     <Box display="flex">
@@ -97,7 +95,6 @@ const Products = () => {
                       },
                       borderRadius: "6px",
                     }}
-                    onClick={() => addToShoppingList(product)}
                   >
                     Add to Cart
                   </Button>

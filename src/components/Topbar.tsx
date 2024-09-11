@@ -1,22 +1,16 @@
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../theme";
-import { useShoppingList } from "../context/shopingList";
-import {
-  getTotalCartCost,
-  getTotalItemsInCart,
-} from "../services/functionsUtil";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode as "light" | "dark");
   const colorMode = useContext(ColorModeContext);
-  const { shoppingList } = useShoppingList();
-  let totalItemsInCart = getTotalItemsInCart(shoppingList);
-  let totalCartCost = getTotalCartCost(shoppingList);
+  
 
   return (
     <Box
@@ -30,12 +24,14 @@ const Topbar = () => {
       {/* Name */}
       <Box
         display="flex"
-        sx={{
+        sx={{ 
           backgroundColor: colors.primary[400],
           borderRadius: "5px",
         }}
       >
-        <Typography variant="h2">Hafifa Store</Typography>
+        <Link to="/">
+          <Typography variant="h2">Hafifa Store</Typography>
+        </Link>
       </Box>
 
       {/* SHOPPING LIST AND THEME */}
@@ -57,10 +53,10 @@ const Topbar = () => {
           p="8px"
         >
           <Typography variant="h4" p="4px">
-            {`$${totalCartCost}`}
+            {`$100`}
           </Typography>
           <Typography variant="h6" p="4px">
-            {`(${totalItemsInCart})`}
+            {`(2)`}
           </Typography>
         </Box>
       </Box>
