@@ -79,7 +79,7 @@ const ProductView = () => {
           <Typography variant="h5">Availability (In Stock)</Typography>
           <Typography
             variant="h2"
-            pt="8px"
+            p="8px 0"
             color="#FFAB00"
           >{`$${product?.price.toFixed(2)}`}</Typography>
           <Typography variant="h6">{product?.description}</Typography>
@@ -87,7 +87,13 @@ const ProductView = () => {
 
         {/* BUTTONS */}
         <Box>
-          <Button sx={{ background: "#EF6C00", color: colors.grey[100] }}>
+          <Button
+            sx={{
+              background: colors.red[500],
+              color: colors.grey[100],
+              "&:hover": { backgroundColor: colors.red[600] },
+            }}
+          >
             Add To Cart
           </Button>
         </Box>
