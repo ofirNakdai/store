@@ -1,3 +1,4 @@
-export default function Cart() {
+const Cart = () => {
   return <>Shoping Cart</>;
-}
+};
+export default Cart;

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useMemo,
-} from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 import { Product } from "../types/product";
 
 interface CartProductInfo {
@@ -65,17 +59,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       },
     }));
   };
-
-  //   const products = useProducts().data;
-  //   const totalAmount = Object.entries(cart).reduce(
-  //     (total, [productId, quantity]) => {
-  //       const product = products!.find(
-  //         (product) => product.id === Number(productId)
-  //       );
-  //       return product ? total + product.price * quantity : total;
-  //     },
-  //     0
-  //   );
 
   return (
     <CartContext.Provider

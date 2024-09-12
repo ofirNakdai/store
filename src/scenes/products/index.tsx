@@ -15,12 +15,14 @@ import ProductTitleWithTooltip from "./productTitleWithTooltip";
 import { useCart } from "../../context/cartProvider";
 import Swal from "sweetalert2";
 import { Product } from "../../types/product";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const productsQuery = useProducts();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   const handleAddToCartButtonClick = (product: Product) => {
     addToCart(product, 1);
@@ -31,10 +33,12 @@ const Products = () => {
       showConfirmButton: false, // Hide the confirm button
       position: "bottom-start", // Position at the bottom left
       toast: true, // Makes the alert look smaller, like a toast notification
-      background:
-        theme.palette.mode === "light" ? "#fcfcfc" : colors.grey[800],
+      background: theme.palette.mode === "light" ? "#fcfcfc" : colors.grey[800],
       color: colors.grey[100],
     });
+  };
+  const handleNavigate = (product: Product) => {
+    navigate(`/products/${product.id}`);
   };
 
   return (
@@ -45,10 +49,8 @@ const Products = () => {
             <Card
               className={`card_${product.id}`}
               sx={{
-                //backgroundColor: colors.primary[900],
                 height: "100%",
               }}
-              // raised
             >
               <CardMedia
                 component="img"
@@ -59,10 +61,17 @@ const Products = () => {
                   height: "200px",
                   width: "100%",
                   alt: "alt",
+                  cursor: "pointer",
                 }}
+                onClick={() => handleNavigate(product)}
               />
               <CardContent sx={{ flexGrow: 1 }}>
-                <ProductTitleWithTooltip title={product.title} />
+                <Box
+                  onClick={() => handleNavigate(product)}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <ProductTitleWithTooltip title={product.title} />
+                </Box>
 
                 {/* RATING */}
                 <Box display="flex" justifyContent="left">
