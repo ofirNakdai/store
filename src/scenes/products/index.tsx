@@ -1,29 +1,41 @@
 import {
   Box,
-  Container,
-  Grid2,
   Grid,
   Card,
   CardMedia,
   CardContent,
   Typography,
-  CardActions,
   Button,
   useTheme,
   Rating,
-  Tooltip,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { useProducts } from "../../services/queries";
-import { useEffect, useRef, useState } from "react";
 import ProductTitleWithTooltip from "./productTitleWithTooltip";
 import { useCart } from "../../context/cartProvider";
+import Swal from "sweetalert2";
+import { Product } from "../../types/product";
 
 const Products = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const productsQuery = useProducts();
   const { addToCart } = useCart();
+
+  const handleAddToCartButtonClick = (product: Product) => {
+    addToCart(product, 1);
+    Swal.fire({
+      text: "The product has been added to your cart.",
+      icon: "success",
+      timer: 3000, // 4 seconds
+      showConfirmButton: false, // Hide the confirm button
+      position: "bottom-start", // Position at the bottom left
+      toast: true, // Makes the alert look smaller, like a toast notification
+      background:
+        theme.palette.mode === "light" ? "#fcfcfc" : colors.grey[800],
+      color: colors.grey[100],
+    });
+  };
 
   return (
     <Box display="flex">
@@ -33,10 +45,10 @@ const Products = () => {
             <Card
               className={`card_${product.id}`}
               sx={{
-                backgroundColor: colors.primary[900],
+                //backgroundColor: colors.primary[900],
                 height: "100%",
               }}
-              raised
+              // raised
             >
               <CardMedia
                 component="img"
@@ -98,7 +110,9 @@ const Products = () => {
                       },
                       borderRadius: "6px",
                     }}
-                    onClick={() => addToCart(product)}
+                    onClick={() => {
+                      handleAddToCartButtonClick(product);
+                    }}
                   >
                     Add to Cart
                   </Button>

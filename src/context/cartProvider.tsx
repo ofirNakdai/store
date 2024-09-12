@@ -20,7 +20,7 @@ interface Cart {
 // Define the type for the context value
 interface CartContextType {
   cart: Cart;
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product, amount: number) => void;
   totalAmount: number;
   totalQuantity: number;
 }
@@ -56,11 +56,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     return Object.keys(cart).length;
   }, [cart]); // Initial total is 0
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Product, amount: number) => {
     setCart((prevCart) => ({
       ...prevCart,
       [product.id]: {
-        quantity: (prevCart[product.id]?.quantity || 0) + 1,
+        quantity: (prevCart[product.id]?.quantity || 0) + amount,
         productPrice: product.price,
       },
     }));
