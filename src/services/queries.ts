@@ -10,7 +10,8 @@ export function useProducts() {
 
 export function useProduct(id: number) {
   return useQuery({
-    queryKey: ["product", id],
+    queryKey: ["products", id],
     queryFn: () => getProduct(id),
+    enabled: !!id,
   });
 }

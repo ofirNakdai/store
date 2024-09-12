@@ -8,6 +8,7 @@ import {
   Button,
   useTheme,
   Rating,
+  CircularProgress,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { useProducts } from "../../services/queries";
@@ -23,6 +24,20 @@ const Products = () => {
   const productsQuery = useProducts();
   const { addToCart } = useCart();
   const navigate = useNavigate();
+
+  if (productsQuery.isPending) {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh" // Makes the Box take the full viewport height
+        width="100vw" // Makes the Box take the full viewport width
+      >
+        <CircularProgress color="inherit" />
+      </Box>
+    );
+  }
 
   const handleAddToCartButtonClick = (product: Product) => {
     addToCart(product, 1);
