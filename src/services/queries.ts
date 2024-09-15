@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { getProduct, getProducts } from "./api";
 
 export function useProducts() {
@@ -10,8 +10,20 @@ export function useProducts() {
 
 export function useProduct(id: number) {
   return useQuery({
-    queryKey: ["products", id],
+    queryKey: ["product", { id }],
     queryFn: () => getProduct(id),
     enabled: !!id,
+  });
+}
+
+export function useProductsByIds(ids: (number | undefined)[] | undefined) {
+  return useQueries({
+    queries: (ids ?? []).map((id) => {
+      return {
+        queryKey: ["products", { id }],
+        queryFn: () => getProduct(id!),
+        enabled: !!id,
+      };
+    }),
   });
 }

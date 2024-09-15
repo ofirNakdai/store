@@ -31,6 +31,11 @@ function App() {
       element: <ProductView />,
       errorElement: <ErrorPage />,
     },
+    {
+      path: "/cart",
+      element: <Cart />,
+      errorElement: <ErrorPage />,
+    },
   ]);
 
   return (
@@ -41,16 +46,17 @@ function App() {
             <CssBaseline />
             <div className="app">
               <main className="content">
-                <Topbar />
-                {/* <Router>
+                <Router>
+                  <Topbar />
+
                   <Routes>
                     <Route path="/" element={<Products />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/products/:id" element={<ProductView />} />
-                    <Route path="/shopingCart" element={<Cart />} />
+                    <Route path="/cart" element={<Cart />} />
                   </Routes>
-                </Router> */}
-                <RouterProvider router={router} />
+                </Router>
+                {/* <RouterProvider router={router} /> */}
               </main>
             </div>
           </CartProvider>

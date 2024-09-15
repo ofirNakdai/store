@@ -5,12 +5,14 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useCart } from "../context/cartProvider";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode as "light" | "dark");
   const colorMode = useContext(ColorModeContext);
   const { totalAmount, totalQuantity } = useCart();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -29,11 +31,13 @@ const Topbar = () => {
           borderRadius: "5px",
         }}
       >
-        <Typography variant="h2">Hafifa Store</Typography>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Typography variant="h2">Hafifa Store</Typography>
+        </Link>
       </Box>
 
-      {/* SHOPPING LIST AND THEME */}
-      <Box display="flex" alignItems="center" justifyContent="inherit">
+      {/* SHOPPING CART AND THEME */}
+      <Box display="flex">
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <LightModeOutlinedIcon />
@@ -41,7 +45,11 @@ const Topbar = () => {
             <DarkModeOutlinedIcon />
           )}
         </IconButton>
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            navigate("/cart");
+          }}
+        >
           <ShoppingCartIcon />
         </IconButton>
         <Box

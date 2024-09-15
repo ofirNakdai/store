@@ -109,6 +109,7 @@ const Products = () => {
                   display="flex"
                   flexDirection="row"
                   justifyContent="space-between"
+                  sx={{ mt: "5px" }}
                 >
                   <Box display="flex" flexDirection="column">
                     <Typography variant="body1" fontSize="11px" color="primary">
