@@ -44,7 +44,7 @@ const Products = () => {
     Swal.fire({
       text: "The product has been added to your cart.",
       icon: "success",
-      timer: 3000, // 4 seconds
+      timer: 3000, // 3 seconds
       showConfirmButton: false, // Hide the confirm button
       position: "bottom-start", // Position at the bottom left
       toast: true, // Makes the alert look smaller, like a toast notification

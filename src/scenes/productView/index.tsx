@@ -12,18 +12,28 @@ import {
   useTheme,
 } from "@mui/material";
 import { tokens } from "../../theme";
+import QuantityPicker from "../../components/QuantityPicker";
+import { useState } from "react";
+import { useCart } from "../../context/cartProvider";
+import Swal from "sweetalert2";
 
 const ProductView = () => {
   const { id } = useParams();
   const productId = Number(id);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [quantity, setQuantity] = useState<number>(1);
+  const { addToCart } = useCart();
 
   if (isNaN(productId)) {
     throw new Error("Product ID is not a valid number");
   }
   const productQuery = useProduct(productId);
   const product = productQuery.data;
+
+  {
+    /* LOADING THE PAGE */
+  }
   if (productQuery.isPending) {
     return (
       <Box
@@ -37,6 +47,31 @@ const ProductView = () => {
       </Box>
     );
   }
+
+  if (!product) {
+    throw new Error("404 - Product ID Not Found");
+  }
+
+  const handleIncrementClick = () => {
+    setQuantity((prev) => prev + 1);
+  };
+  const handleDecrementClick = () => {
+    setQuantity((prev) => Math.max(0, prev - 1));
+  };
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    Swal.fire({
+      text: "The product has been added to your cart.",
+      icon: "success",
+      timer: 3000, // 3 seconds
+      showConfirmButton: false, // Hide the confirm button
+      position: "bottom-start", // Position at the bottom left
+      toast: true, // Makes the alert look smaller, like a toast notification
+      background: theme.palette.mode === "light" ? "#fcfcfc" : colors.grey[800],
+      color: colors.grey[100],
+    });
+    setQuantity(1);
+  };
 
   return (
     <Box display="flex" gap="30px" mt="40px" ml="40px">
@@ -86,13 +121,21 @@ const ProductView = () => {
         </Box>
 
         {/* BUTTONS */}
-        <Box>
+        <Box display="flex" mt="8px">
+          <QuantityPicker
+            quantity={quantity}
+            onIncrement={handleIncrementClick}
+            onDecrement={handleDecrementClick}
+          />
           <Button
             sx={{
+              ml: "8px",
               background: colors.red[500],
               color: colors.grey[100],
               "&:hover": { backgroundColor: colors.red[600] },
             }}
+            onClick={handleAddToCart}
+            disabled={quantity <= 0}
           >
             Add To Cart
           </Button>
