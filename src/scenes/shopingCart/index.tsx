@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useCart } from "../../context/cartProvider";
 import { useProductsByIds } from "../../services/queries";
 import { ContactSupportOutlined } from "@mui/icons-material";
@@ -6,15 +6,18 @@ import CartItem from "./CartItem";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Divider from "@mui/material/Divider";
+import Footer from "../../components/Footer";
 
 const Cart = () => {
-  const { cart } = useCart();
+  const { cart, totalAmount, totalQuantity } = useCart();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const productsQuery = useProductsByIds(
     Object.keys(cart).map((key) => Number(key))
   );
+
+  const isEmptyCart = Object.keys(cart).length === 0;
 
   return (
     <Box sx={{ m: "10px 20px" }} gap="10px">
@@ -26,29 +29,75 @@ const Cart = () => {
         <Box
           display="flex"
           flexDirection="column"
-          maxWidth="60%"
-          sx={{ background: colors.primary[400] }}
+          width="80%"
+          sx={{
+            background: colors.primary[400],
+            height: "70vh",
+            overflowY: "auto",
+          }}
         >
-          {productsQuery.map((item) =>
-            item.data ? (
-              <CartItem
-                key={item.data.id}
-                product={item.data}
-                quantity={cart[item.data.id]["quantity"]}
-              />
-            ) : null
+          {isEmptyCart ? (
+            <Typography variant="h6" sx={{ m: "20px", textAlign: "center" }}>
+              Your cart is empty.
+            </Typography>
+          ) : (
+            productsQuery.map((item) =>
+              item.data ? (
+                <CartItem
+                  key={item.data.id}
+                  product={item.data}
+                  quantity={cart[item.data.id]["quantity"]}
+                />
+              ) : null
+            )
           )}
         </Box>
-        <Divider sx={{ border: "2px solid", borderColor: "divider" }} />
+        <Divider
+          sx={{ border: "2px solid", borderColor: "divider", m: "3px" }}
+        />
+
         {/* CHECKOUT */}
         <Box
+          p="8px 20px"
           display="flex"
           flexDirection="column"
-          maxWidth="30%"
+          justifyContent="space-between"
+          width="20%"
+          height="70vh"
           sx={{ background: colors.primary[400] }}
         >
-          Ofir-----------------------------------------------------------------------------
+          {/* SUBTOTAL */}
+          <Box>
+            <Typography variant="h4">Subtotal</Typography>
+            <Typography variant="h3" fontWeight="bold">{`$${totalAmount.toFixed(
+              2
+            )}`}</Typography>
+            <Typography variant="h6">{`${totalQuantity} items`}</Typography>
+          </Box>
+          {/* CHECKOUT BUTTON */}
+          <Box>
+            <Button
+              sx={{
+                backgroundColor: colors.blue[500],
+                color: theme.palette.mode === "light" ? "black" : "white",
+
+                "&:hover": {
+                  backgroundColor: colors.blue[600],
+                },
+                borderRadius: "4px",
+              }}
+            >
+              checkout
+            </Button>
+          </Box>
         </Box>
+      </Box>
+
+      {/* FOOTER */}
+
+      <Box >
+        <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
+        <Footer />
       </Box>
     </Box>
   );

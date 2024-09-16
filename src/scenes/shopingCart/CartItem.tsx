@@ -71,7 +71,7 @@ const CartItem: React.FC<ProductProps> = ({
     <>
       <Box
         gap="8px"
-        sx={{ borderColor: "divider", m: "5px" }}
+        sx={{ borderColor: "divider", m: "5px", height:"20vh" }}
         display="flex"
         justifyContent="space-around"
       >

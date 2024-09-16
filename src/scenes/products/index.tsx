@@ -9,6 +9,7 @@ import {
   useTheme,
   Rating,
   CircularProgress,
+  Divider,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { useProducts } from "../../services/queries";
@@ -17,6 +18,7 @@ import { useCart } from "../../context/cartProvider";
 import Swal from "sweetalert2";
 import { Product } from "../../types/product";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 const Products = () => {
   const theme = useTheme();
@@ -57,8 +59,8 @@ const Products = () => {
   };
 
   return (
-    <Box display="flex">
-      <Grid container spacing={8} m="0 30px 30px 0">
+    <Box display="flex" flexDirection="column">
+      <Grid container spacing={8} m="0 0" p="0 64px 0 0" maxWidth="100%">
         {productsQuery.data?.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={3}>
             <Card
@@ -120,6 +122,7 @@ const Products = () => {
                       fontWeight="bold"
                     >{`$${product.price.toFixed(2)}`}</Typography>
                   </Box>
+                  {/* ADD TO CART BUTTON */}
                   <Button
                     sx={{
                       backgroundColor:
@@ -147,6 +150,12 @@ const Products = () => {
           </Grid>
         ))}
       </Grid>
+
+      {/* FOOTER */}
+      <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
+      <Box>
+        <Footer />
+      </Box>
     </Box>
   );
 };

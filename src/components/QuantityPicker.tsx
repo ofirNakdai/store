@@ -14,7 +14,7 @@ const QuantityPicker: React.FC<QuantityPickerProps> = ({
   onDecrement,
 }) => {
   return (
-    <Box display="flex" sx={{ border: "2px solid", borderRadius: "4px" }}>
+    <Box display="flex" sx={{ border: "2px solid", borderRadius: "4px" }} gap="3px">
       <IconButton onClick={onDecrement} disabled={quantity <= 0}>
         <RemoveIcon />
       </IconButton>
