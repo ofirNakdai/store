@@ -8,7 +8,7 @@ import { tokens } from "../../theme";
 import Divider from "@mui/material/Divider";
 import Footer from "../../components/Footer";
 import { useState } from "react";
-import PaymentModel from "../payment/index.tsx";
+import PaymentModel from "../payment.tsx/index.tsx";
 
 const Cart = () => {
   const { cart, totalAmount, totalQuantity } = useCart();
