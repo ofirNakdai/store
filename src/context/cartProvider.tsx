@@ -15,6 +15,9 @@ interface Cart {
 interface CartContextType {
   cart: Cart;
   addToCart: (product: Product, amount: number) => void;
+  increaseQuantityToProduct: (product: Product) => void;
+  decreaseQuantityToProduct: (product: Product) => void;
+  removeFromCart: (product: Product) => void;
   totalAmount: number;
   totalQuantity: number;
 }
@@ -60,9 +63,40 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }));
   };
 
+  const increaseQuantityToProduct = (product: Product) => {
+    addToCart(product, 1);
+  };
+  const decreaseQuantityToProduct = (product: Product) => {
+    addToCart(product, -1);
+  };
+
+  const removeFromCart = (product: Product) => {
+    console.log(
+      `Removing product: ${product.id} from cart: ${Object.keys(cart)}`
+    );
+    setCart((prevCart) => {
+      // Create a shallow copy of the previous cart
+      const newCart = { ...prevCart };
+
+      // Delete the product by its id
+      delete newCart[product.id];
+
+      // Return the new cart without the removed product
+      return newCart;
+    });
+  };
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, totalAmount, totalQuantity }}
+      value={{
+        cart,
+        addToCart,
+        increaseQuantityToProduct,
+        decreaseQuantityToProduct,
+        removeFromCart,
+        totalAmount,
+        totalQuantity,
+      }}
     >
       {children}
     </CartContext.Provider>
