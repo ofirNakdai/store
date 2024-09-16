@@ -5,30 +5,32 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import PaymentForm from "./paymentForm";
 
 interface CheckoutModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const CheckoutModal: React.FC<CheckoutModalProps> = ({ open, onClose }) => {
+const PaymentModel: React.FC<CheckoutModalProps> = ({ open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Checkout</DialogTitle>
+      {/* PAYMENT FORM */}
       <DialogContent>
-        {/* Add your checkout content here */}
-        <p>This is where you’ll put your checkout form or summary.</p>
+        <PaymentForm />
       </DialogContent>
+
+      {/* BUTTONS */}
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Close
         </Button>
         <Button onClick={() => alert("Proceed to Payment")} color="primary">
-          Proceed to Payment
+          Submit Payment
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default CheckoutModal;
+export default PaymentModel;

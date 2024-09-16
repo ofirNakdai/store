@@ -7,6 +7,8 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Divider from "@mui/material/Divider";
 import Footer from "../../components/Footer";
+import { useState } from "react";
+import PaymentModel from "../payment.tsx";
 
 const Cart = () => {
   const { cart, totalAmount, totalQuantity } = useCart();
@@ -18,6 +20,15 @@ const Cart = () => {
   );
 
   const isEmptyCart = Object.keys(cart).length === 0;
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+
+  const handleCheckoutClick = () => {
+    setCheckoutOpen(true);
+  };
+
+  const handleClose = () => {
+    setCheckoutOpen(false);
+  };
 
   return (
     <Box sx={{ m: "10px 20px" }} gap="10px">
@@ -86,6 +97,8 @@ const Cart = () => {
                 },
                 borderRadius: "4px",
               }}
+              onClick={handleCheckoutClick}
+              disabled={totalQuantity==0}
             >
               checkout
             </Button>
@@ -93,9 +106,11 @@ const Cart = () => {
         </Box>
       </Box>
 
-      {/* FOOTER */}
+      {/* Checkout Modal */}
+      <PaymentModel open={checkoutOpen} onClose={handleClose} />
 
-      <Box >
+      {/* FOOTER */}
+      <Box>
         <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
         <Footer />
       </Box>
