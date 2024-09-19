@@ -1,4 +1,11 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogContent,
+  Typography,
+} from "@mui/material";
 import { useCart } from "../../context/cartProvider";
 import { useProductsByIds } from "../../services/queries";
 import { ContactSupportOutlined } from "@mui/icons-material";
@@ -9,6 +16,7 @@ import Divider from "@mui/material/Divider";
 import Footer from "../../components/Footer";
 import { useState } from "react";
 import PaymentModel from "../payment.tsx/index.tsx";
+import PaymentFormRHF from "../payment.tsx/paymentForm-rhf.tsx";
 
 const Cart = () => {
   const { cart, totalAmount, totalQuantity } = useCart();
@@ -98,7 +106,7 @@ const Cart = () => {
                 borderRadius: "4px",
               }}
               onClick={handleCheckoutClick}
-              disabled={totalQuantity==0}
+              // disabled={totalQuantity == 0}
             >
               checkout
             </Button>
@@ -106,8 +114,13 @@ const Cart = () => {
         </Box>
       </Box>
 
-      {/* Checkout Modal */}
-      <PaymentModel open={checkoutOpen} onClose={handleClose} />
+      {/* Checkout Model */}
+      <Dialog open={checkoutOpen} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogContent>
+          <PaymentFormRHF />
+          {/* <PaymentForm /> */}
+        </DialogContent>
+      </Dialog>
 
       {/* FOOTER */}
       <Box>

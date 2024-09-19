@@ -6,6 +6,7 @@ import {
   Button,
 } from "@mui/material";
 import PaymentForm from "./paymentForm";
+import PaymentFormRHF from "./paymentForm-rhf";
 
 interface CheckoutModalProps {
   open: boolean;
@@ -14,21 +15,11 @@ interface CheckoutModalProps {
 
 const PaymentModel: React.FC<CheckoutModalProps> = ({ open, onClose }) => {
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       {/* PAYMENT FORM */}
       <DialogContent>
-        <PaymentForm />
+        <PaymentFormRHF />
       </DialogContent>
-
-      {/* BUTTONS */}
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Close
-        </Button>
-        <Button onClick={() => alert("Proceed to Payment")} color="primary">
-          Submit Payment
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };
