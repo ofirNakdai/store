@@ -31,7 +31,10 @@ const Topbar = () => {
           borderRadius: "5px",
         }}
       >
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link
+          to="/products"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <Typography variant="h2">Hafifa Store</Typography>
         </Link>
       </Box>

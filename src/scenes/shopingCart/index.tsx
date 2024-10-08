@@ -125,11 +125,11 @@ const Cart = () => {
         </DialogContent>
       </Dialog>
 
-      {/* FOOTER */}
+      {/* FOOTER
       <Box>
         <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

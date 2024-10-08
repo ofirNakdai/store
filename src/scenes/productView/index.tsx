@@ -148,12 +148,12 @@ const ProductView = () => {
         </Box>
       </div>
 
-      <footer>
+      {/* <footer>
         <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
         <Box>
           <Footer />
         </Box>
-      </footer>
+      </footer> */}
     </Box>
   );
 };

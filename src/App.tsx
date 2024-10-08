@@ -10,6 +10,7 @@ import { useProducts } from "./services/queries";
 import { CartProvider } from "./context/cartProvider";
 import ErrorPage from "./scenes/global/error-page";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import BaseLayout from "./scenes/global/baseLayout";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -47,14 +48,13 @@ function App() {
             <div className="app">
               <main className="content">
                 <Router>
-                  <Topbar />
-
-                  <Routes >
-                    <Route path="/" element={<Products />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/products/:id" element={<ProductView />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/*" element={<ErrorPage />} />
+                  <Routes>
+                    <Route path="/" element={<BaseLayout />}>
+                      <Route path="products" element={<Products />} />
+                      <Route path="products/:id" element={<ProductView />} />
+                      <Route path="cart" element={<Cart />} />
+                      <Route path="*" element={<ErrorPage />} />
+                    </Route>
                   </Routes>
                 </Router>
                 {/* <RouterProvider router={router} /> */}

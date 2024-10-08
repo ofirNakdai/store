@@ -152,11 +152,11 @@ const Products = () => {
         ))}
       </Grid>
 
-      {/* FOOTER */}
+      {/* FOOTER
       <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
       <Box>
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   );
 };
