@@ -15,11 +15,10 @@ import { tokens } from "../../theme";
 import Divider from "@mui/material/Divider";
 import Footer from "../../components/Footer";
 import { useState } from "react";
-import PaymentModel from "../payment.tsx/index.tsx";
 import PaymentFormRHF from "../payment.tsx/paymentForm-rhf.tsx";
 
 const Cart = () => {
-  const { cart, totalAmount, totalQuantity } = useCart();
+  const { cart, totalAmount, totalQuantity, clearCart } = useCart();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -40,7 +39,7 @@ const Cart = () => {
 
   return (
     <Box sx={{ m: "10px 20px" }} gap="10px">
-      <Typography variant="h3">Shopping List</Typography>
+      <Typography variant="h2">Shopping Cart</Typography>
 
       {/* MAIN */}
       <Box display="flex" pt="10px">
@@ -93,6 +92,7 @@ const Cart = () => {
             )}`}</Typography>
             <Typography variant="h6">{`${totalQuantity} items`}</Typography>
           </Box>
+
           {/* CHECKOUT BUTTON */}
           <Box>
             <Button
@@ -106,7 +106,7 @@ const Cart = () => {
                 borderRadius: "4px",
               }}
               onClick={handleCheckoutClick}
-              // disabled={totalQuantity == 0}
+              disabled={totalQuantity == 0}
             >
               checkout
             </Button>
@@ -117,7 +117,10 @@ const Cart = () => {
       {/* Checkout Model */}
       <Dialog open={checkoutOpen} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogContent>
-          <PaymentFormRHF />
+          <PaymentFormRHF
+            setDialogOpen={setCheckoutOpen}
+            clearCart={clearCart}
+          />
           {/* <PaymentForm /> */}
         </DialogContent>
       </Dialog>

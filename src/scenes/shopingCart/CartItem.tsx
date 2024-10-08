@@ -71,9 +71,9 @@ const CartItem: React.FC<ProductProps> = ({
     <>
       <Box
         gap="8px"
-        sx={{ borderColor: "divider", m: "5px", height:"20vh" }}
+        sx={{ borderColor: "divider", m: "5px", height: "20vh" }}
         display="flex"
-        justifyContent="space-around"
+        justifyContent="space-evenly"
       >
         {/* IMAGE */}
         <Box
@@ -89,14 +89,16 @@ const CartItem: React.FC<ProductProps> = ({
         />
 
         {/* TITLE */}
-        <Typography
-          variant="h5"
-          maxWidth="50%"
-          sx={{ width: "40%", cursor: "pointer" }}
-          onClick={() => handleNavigate(product)}
-        >
-          {product.title}
-        </Typography>
+        <Box alignContent="center" width="100%">
+          <Typography
+            variant="h4"
+            maxWidth="85%"
+            sx={{ cursor: "pointer" }}
+            onClick={() => handleNavigate(product)}
+          >
+            {product.title}
+          </Typography>
+        </Box>
 
         {/* QUANTITY PICKER */}
         <Box alignContent="center">

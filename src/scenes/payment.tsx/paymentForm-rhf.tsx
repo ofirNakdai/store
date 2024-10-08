@@ -11,14 +11,17 @@ import Checkbox from "@mui/material/Checkbox";
 import PaymentMethodesIcon from "../../resources/PaymentMethodes";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Dispatch, SetStateAction, useState } from "react";
+import successModal from "./successModal";
+import SuccessModal from "./successModal";
 
 const signUpSchema = z.object({
-  fullName: z.string().min(3, "Name has to be at least 3 characters"),
+  fullName: z.string().min(3, "Has to be at least 3 characters"),
   email: z.string().email(),
   address: z.string(),
   city: z.string(),
   cardHolder: z.string().min(3, "Has to be at least 3 characters"),
-  cardNumber: z.string().min(1, "Card Number has to be longer"),
+  cardNumber: z.string().min(1, "* Required"),
   expirationMonth: z.string(),
   wrapAsPresent: z.boolean(),
 });
@@ -38,7 +41,13 @@ interface PaymentFormInputs {
   wrapAsPresent: boolean;
 }
 
-const PaymentFormRHF = () => {
+const PaymentFormRHF = ({
+  setDialogOpen,
+  clearCart,
+}: {
+  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+  clearCart: () => void;
+}) => {
   const {
     register,
     handleSubmit,
@@ -52,8 +61,12 @@ const PaymentFormRHF = () => {
   ) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(data);
+    setSuccessPayment(true);
     reset();
+    clearCart();
   };
+
+  const [successPayment, setSuccessPayment] = useState(false);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -130,8 +143,6 @@ const PaymentFormRHF = () => {
             control={<Checkbox {...register("wrapAsPresent")} />}
             label="Wrap as Presant"
           />
-
-          {watch("wrapAsPresent") ? "Present Wrapping Selected" : "No Wrapping"}
         </Box>
         {/* Payment */}
         <Box display="flex" flexDirection="column" gap="20px" flex="0">
@@ -211,8 +222,8 @@ const PaymentFormRHF = () => {
                 "October",
                 "November",
                 "December",
-              ].map((month) => {
-                return <option value={month}>{month}</option>;
+              ].map((month, index) => {
+                return <option key={index} value={month}>{month}</option>;
               })}
             </select>
             {errors.expirationMonth?.message && (
@@ -234,9 +245,15 @@ const PaymentFormRHF = () => {
           {/* Submitting Button */}
           <input
             type="submit"
-            title="ORDER"
+            className="submit-btn"
             disabled={isSubmitting}
             style={{ borderRadius: "4px", height: "35px" }}
+          />
+          {/* Success Dialog */}
+          <SuccessModal
+            open={successPayment}
+            setOpen={setSuccessPayment}
+            setParentWindowOpen={setDialogOpen} // allowing the success modal to close this dialog
           />
         </Box>{" "}
         {/* payment box */}

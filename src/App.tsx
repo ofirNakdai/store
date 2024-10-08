@@ -15,28 +15,28 @@ function App() {
   const [theme, colorMode] = useMode();
   const queryClient = new QueryClient();
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Products />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/products",
-      element: <Products />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/products/:id",
-      element: <ProductView />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/cart",
-      element: <Cart />,
-      errorElement: <ErrorPage />,
-    },
-  ]);
+  // const router = createBrowserRouter([
+  //   {
+  //     path: "/",
+  //     element: <Products />,
+  //     errorElement: <ErrorPage />,
+  //   },
+  //   {
+  //     path: "/products",
+  //     element: <Products />,
+  //     errorElement: <ErrorPage />,
+  //   },
+  //   {
+  //     path: "/products/:id",
+  //     element: <ProductView />,
+  //     errorElement: <ErrorPage />,
+  //   },
+  //   {
+  //     path: "/cart",
+  //     element: <Cart />,
+  //     errorElement: <ErrorPage />,
+  //   },
+  // ]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -49,11 +49,12 @@ function App() {
                 <Router>
                   <Topbar />
 
-                  <Routes>
+                  <Routes >
                     <Route path="/" element={<Products />} />
                     <Route path="/products" element={<Products />} />
                     <Route path="/products/:id" element={<ProductView />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/*" element={<ErrorPage />} />
                   </Routes>
                 </Router>
                 {/* <RouterProvider router={router} /> */}

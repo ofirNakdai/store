@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -38,20 +38,26 @@ const Topbar = () => {
 
       {/* SHOPPING CART AND THEME */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <LightModeOutlinedIcon />
-          ) : (
-            <DarkModeOutlinedIcon />
-          )}
-        </IconButton>
-        <IconButton
-          onClick={() => {
-            navigate("/cart");
-          }}
+        <Tooltip
+          title={theme.palette.mode === "dark" ? "Light Mode" : "Dark Mode"}
         >
-          <ShoppingCartIcon />
-        </IconButton>
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? (
+              <LightModeOutlinedIcon />
+            ) : (
+              <DarkModeOutlinedIcon />
+            )}
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Cart">
+          <IconButton
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
+            <ShoppingCartIcon />
+          </IconButton>
+        </Tooltip>
         <Box
           display="flex"
           justifyContent="space-between"

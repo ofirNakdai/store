@@ -34,3 +34,12 @@ body,
   background: #555;
 }
 
+.submit-btn {
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #d4d4d4;
+}
+

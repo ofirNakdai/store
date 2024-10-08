@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import { Product } from "../../types/product";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
+import { useEffect } from "react";
 
 const Products = () => {
   const theme = useTheme();

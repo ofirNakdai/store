@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Container,
+  Divider,
   Grid,
   Rating,
   Typography,
@@ -16,6 +17,7 @@ import QuantityPicker from "../../components/QuantityPicker";
 import { useState } from "react";
 import { useCart } from "../../context/cartProvider";
 import Swal from "sweetalert2";
+import Footer from "../../components/Footer";
 
 const ProductView = () => {
   const { id } = useParams();
@@ -74,73 +76,84 @@ const ProductView = () => {
   };
 
   return (
-    <Box display="flex" gap="30px" mt="40px" ml="40px">
-      {/* IMAGE */}
-      <Box
-        component="img"
-        sx={{
-          maxWidth: "100%", // Full width of the parent container
-          maxHeight: "75vh", // Limit the height
-          objectFit: "contain", // Ensures the image fits well within the container
-        }}
-        alt="Descriptive Alt Text"
-        src={product?.image}
-      />
-
-      {/* DETAILS */}
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        pt="53px"
-        pb="101px"
-      >
-        <Box maxWidth="85vh">
-          <Box display="flex">
-            <Rating
-              name="half-rating-read"
-              value={product?.rating.rate}
-              precision={0.5}
-              size="small"
-              readOnly
-            />
-            <Typography
-              variant="body1"
-              fontSize="11px"
-              color="primary"
-            >{`(${product?.rating.count})`}</Typography>
-          </Box>
-          <Typography variant="h1">{product?.title}</Typography>
-          <Typography variant="h5">Availability (In Stock)</Typography>
-          <Typography
-            variant="h2"
-            p="8px 0"
-            color="#FFAB00"
-          >{`$${product?.price.toFixed(2)}`}</Typography>
-          <Typography variant="h6">{product?.description}</Typography>
-        </Box>
-
-        {/* BUTTONS */}
-        <Box display="flex" mt="8px">
-          <QuantityPicker
-            quantity={quantity}
-            onIncrement={handleIncrementClick}
-            onDecrement={handleDecrementClick}
-          />
-          <Button
+    <Box>
+      <div>
+        <Box display="flex" gap="30px" mt="40px" ml="40px">
+          {/* IMAGE */}
+          <Box
+            component="img"
             sx={{
-              ml: "8px",
-              background: colors.red[500],
-              color: colors.grey[100],
-              "&:hover": { backgroundColor: colors.red[600] },
+              maxWidth: "100%", // Full width of the parent container
+              maxHeight: "75vh", // Limit the height
+              objectFit: "contain", // Ensures the image fits well within the container
             }}
-            onClick={handleAddToCart}
-            disabled={quantity <= 0}
+            alt="Descriptive Alt Text"
+            src={product?.image}
+          />
+
+          {/* DETAILS */}
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            pt="53px"
+            pb="101px"
           >
-            Add To Cart
-          </Button>
+            <Box maxWidth="85vh">
+              <Box display="flex">
+                <Rating
+                  name="half-rating-read"
+                  value={product?.rating.rate}
+                  precision={0.5}
+                  size="small"
+                  readOnly
+                />
+                <Typography
+                  variant="body1"
+                  fontSize="11px"
+                  color="primary"
+                >{`(${product?.rating.count})`}</Typography>
+              </Box>
+              <Typography variant="h1">{product?.title}</Typography>
+              <Typography variant="h5">Availability (In Stock)</Typography>
+              <Typography
+                variant="h2"
+                p="8px 0"
+                color="#FFAB00"
+              >{`$${product?.price.toFixed(2)}`}</Typography>
+              <Typography variant="h6">{product?.description}</Typography>
+            </Box>
+
+            {/* BUTTONS */}
+            <Box display="flex" mt="8px">
+              <QuantityPicker
+                quantity={quantity}
+                onIncrement={handleIncrementClick}
+                onDecrement={handleDecrementClick}
+              />
+              <Button
+                sx={{
+                  ml: "8px",
+                  background: colors.red[500],
+                  color: colors.grey[100],
+                  "&:hover": { backgroundColor: colors.red[600] },
+                }}
+                onClick={handleAddToCart}
+                disabled={quantity <= 0}
+              >
+                Add To Cart
+              </Button>
+            </Box>
+          </Box>
         </Box>
-      </Box>
+      </div>
+
+      <footer>
+        <Divider variant="middle" sx={{ color: "divider", mt: "20px" }} />
+        <Box>
+          <Footer />
+        </Box>
+      </footer>
     </Box>
   );
 };
